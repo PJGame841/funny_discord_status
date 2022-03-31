@@ -1,28 +1,27 @@
 import discord
 import os
-from datetime import datetime
 from dotenv import load_dotenv
 
 load_dotenv()
 
-class DiscordClient(discord.Client):
-	def __init__(self, *args, **kwargs):
-		discord.Client.__init__(self, **kwargs)
+client = discord.Client()
 
-	async def on_ready(self):
-		# user = await self.fetch_user("264026681931464704")
-		# now = datetime.datetime.now()
-		# channel = await user.create_dm()
-		# await channel.send('Api Success! at ' + str(now))
-		# print('Success!')
-		# await self.close()
+@client.event
+async def on_ready():
+	print("Connected", flush=True)
+	activity = discord.CustomActivity(name="with the API", emoji=client.get_emoji(":robot:"))
+	print(activity, flush=True)
+	await client.change_presence(activity=activity, afk=False)
+	
+@client.event
+async def on_message(message):
+	if message.author == client.user:
+		return
 
-		print("Connected", flush=True)
-		activity = discord.CustomActivity(name="with the API", emoji=self.get_emoji(":robot:"))
+	if message.content.startswith('$hello'):
+		# activity = discord.CustomActivity(name="with the API", emoji=client.get_emoji(":robot:"))
+		activity = discord.Streaming(name="with the API", url="https://twitch.tv/robot")
 		print(activity, flush=True)
-		await self.change_presence(status=discord.Status.idle, activity=activity)
-
-# Main
-if __name__ == '__main__':
-	dc = DiscordClient()
-	dc.run(os.getenv('DISCORDTOKEN'), bot=False)
+		await client.change_presence(activity=activity, afk=False)
+		
+client.run(os.getenv('DISCORDTOKEN'), bot=False)
