@@ -14,4 +14,7 @@ First, I was just trying to make my discord status blink like
 
 Too bad for me, the discord api rate limits me at 5 seconds of using it. And disable my account.
 Maybe with a little bit of timeout it could work, I'll try later.
+  
+  
+After some time, I set the delay to 3 secondes between each sets, and now I can alternate between "-======-" and "-______-". Not as satisfying as I would but a great start 
 </div>
